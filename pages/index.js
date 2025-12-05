@@ -95,17 +95,11 @@ function Home() {
   return (
     <>
       <style>{`
+
         h1 {
           font-size: 2.25rem;
           font-weight: bold;
           margin-bottom: 16px;
-        }
-
-        @media (max-width: 480px) {
-        h1 {
-            font-size: 1.6rem;
-            line-height: 1.2;
-          }
         }
 
         html, body {
@@ -142,6 +136,26 @@ function Home() {
           background: rgba(255, 255, 255, 0.9);
           box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
         }
+
+        @media (max-width: 480px) {
+          h1 {
+            font-size: 1.6rem;
+            line-height: 1.2;
+          }
+        }
+
+        @media (max-width: 768px) {
+          html, body {
+            background: radial-gradient(circle at top, #4b1f72 0%, #121212 55%, #050509 100%);
+          }
+
+          .bg-layer {
+            background:
+              radial-gradient(circle at 0% 0%, rgba(148, 63, 235, 0.20), transparent 60%),
+              radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.10), transparent 60%);
+            filter: blur(10px);
+          }
+        }
       `}</style>
 
       <div className="background-wrapper">
@@ -162,7 +176,8 @@ function Home() {
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
-          padding: "16px",
+          paddingLeft: "16px",
+          paddingRight: "16px",
           fontFamily: "Arial, sans-serif",
           backgroundColor: "transparent",
           color: "#f5f5f5",
@@ -181,15 +196,7 @@ function Home() {
             width: "100%",
           }}
         >
-          <h1
-            style={{
-              fontSize: isMobile ? "1.8rem" : "2.25rem",
-              fontWeight: "bold",
-              marginBottom: "16px",
-            }}
-          >
-            {isMobile ? "⚠️ Em construção 🎮" : "⚠️🚧 Em construção 🕹️🎮"}
-          </h1>
+          <h1>🚧 Em construção 🕹️</h1>
 
           <p
             style={{
