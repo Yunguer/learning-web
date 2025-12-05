@@ -144,18 +144,6 @@ function Home() {
           }
         }
 
-        @media (max-width: 768px) {
-          html, body {
-            background: radial-gradient(circle at top, #4b1f72 0%, #121212 55%, #050509 100%);
-          }
-
-          .bg-layer {
-            background:
-              radial-gradient(circle at 0% 0%, rgba(148, 63, 235, 0.20), transparent 60%),
-              radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.10), transparent 60%);
-            filter: blur(10px);
-          }
-        }
       `}</style>
 
       <div className="background-wrapper">
@@ -180,7 +168,7 @@ function Home() {
           paddingRight: "16px",
           fontFamily: "Arial, sans-serif",
           backgroundColor: "transparent",
-          color: "#f5f5f5",
+          color: "#f5f5f5;",
           position: "relative",
           zIndex: 1,
         }}
