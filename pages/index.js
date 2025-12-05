@@ -1,8 +1,23 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < breakpoint);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [breakpoint]);
+
+  return isMobile;
+}
 
 function Home() {
   const particlesRef = useRef([]);
   const starsStateRef = useRef([]);
+  const isMobile = useIsMobile();
+  const particlesCount = isMobile ? 50 : 100;
 
   useEffect(() => {
     const stars = particlesRef.current;
@@ -80,6 +95,19 @@ function Home() {
   return (
     <>
       <style>{`
+        h1 {
+          font-size: 2.25rem;
+          font-weight: bold;
+          margin-bottom: 16px;
+        }
+
+        @media (max-width: 480px) {
+        h1 {
+            font-size: 1.6rem;
+            line-height: 1.2;
+          }
+        }
+
         html, body {
           margin: 0;
           padding: 0;
@@ -108,17 +136,17 @@ function Home() {
 
         .particle {
           position: absolute;
-          width: 3px;
-          height: 3px;
+          width: 2px;
+          height: 2px;
           border-radius: 9999px;
           background: rgba(255, 255, 255, 0.9);
-          box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+          box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
         }
       `}</style>
 
       <div className="background-wrapper">
         <div className="bg-layer" />
-        {Array.from({ length: 100 }).map((_, i) => (
+        {Array.from({ length: particlesCount }).map((_, i) => (
           <div
             key={i}
             className="particle"
@@ -155,12 +183,12 @@ function Home() {
         >
           <h1
             style={{
-              fontSize: "2.25rem",
+              fontSize: isMobile ? "1.8rem" : "2.25rem",
               fontWeight: "bold",
               marginBottom: "16px",
             }}
           >
-            ⚠️🚧 Em construção 🕹️🎮
+            {isMobile ? "⚠️ Em construção 🎮" : "⚠️🚧 Em construção 🕹️🎮"}
           </h1>
 
           <p
