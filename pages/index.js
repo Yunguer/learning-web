@@ -168,7 +168,7 @@ function Home() {
           paddingRight: "16px",
           fontFamily: "Arial, sans-serif",
           backgroundColor: "transparent",
-          color: "#f5f5f5;",
+          color: "#f5f5f5",
           position: "relative",
           zIndex: 1,
         }}
