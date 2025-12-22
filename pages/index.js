@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(false);
@@ -229,12 +230,12 @@ function Home() {
               e.currentTarget.style.transform = "translateY(0)";
             }}
           >
-            <img
-              src="https://avatars.githubusercontent.com/u/74862406?v=4&size=64"
+            <Image
+              src="/avatar-autor.jpg"
               alt="Avatar do autor"
+              width={28}
+              height={28}
               style={{
-                width: "28px",
-                height: "28px",
                 borderRadius: "50%",
               }}
             />
