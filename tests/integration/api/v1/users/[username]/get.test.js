@@ -10,22 +10,10 @@ beforeAll(async () => {
 describe("GET /api/v1/users/[username]", () => {
   describe("Anonymous User", () => {
     test("With exact case match", async () => {
-      const firstResponse = await fetch("http://localhost:3000/api/v1/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: "case_match_username",
-          email: "case_match_email@example.com",
-          password: "password123",
-        }),
-      });
-
-      expect(firstResponse.status).toBe(201);
+      const createdUser = await orchestrator.createUser();
 
       const secondResponse = await fetch(
-        "http://localhost:3000/api/v1/users/case_match_username",
+        `http://localhost:3000/api/v1/users/${createdUser.username}`,
       );
 
       expect(secondResponse.status).toBe(200);
@@ -34,8 +22,8 @@ describe("GET /api/v1/users/[username]", () => {
 
       expect(secondResponseBody).toEqual({
         id: secondResponseBody.id,
-        username: "case_match_username",
-        email: "case_match_email@example.com",
+        username: createdUser.username,
+        email: createdUser.email,
         password: secondResponseBody.password,
         created_at: secondResponseBody.created_at,
         updated_at: secondResponseBody.updated_at,
@@ -47,22 +35,12 @@ describe("GET /api/v1/users/[username]", () => {
     });
 
     test("With case mismatch", async () => {
-      const firstResponse = await fetch("http://localhost:3000/api/v1/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: "Case_Mismatch_Username",
-          email: "case_mismatch_email@example.com",
-          password: "password123",
-        }),
+      const createdUser = await orchestrator.createUser({
+        username: "Case_Mismatch_Username",
       });
 
-      expect(firstResponse.status).toBe(201);
-
       const secondResponse = await fetch(
-        "http://localhost:3000/api/v1/users/CASE_MISMATCH_USERNAME",
+        `http://localhost:3000/api/v1/users/${createdUser.username.toUpperCase()}`,
       );
 
       expect(secondResponse.status).toBe(200);
@@ -71,8 +49,8 @@ describe("GET /api/v1/users/[username]", () => {
 
       expect(secondResponseBody).toEqual({
         id: secondResponseBody.id,
-        username: "Case_Mismatch_Username",
-        email: "case_mismatch_email@example.com",
+        username: createdUser.username,
+        email: createdUser.email,
         password: secondResponseBody.password,
         created_at: secondResponseBody.created_at,
         updated_at: secondResponseBody.updated_at,
