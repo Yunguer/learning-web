@@ -11,36 +11,6 @@ async function create(userInputValues) {
   return newUser;
 }
 
-async function findByUsername(username) {
-  const userFound = await runSelectQuery(username);
-  return userFound;
-
-  async function runSelectQuery(username) {
-    const results = await database.query({
-      text: `
-      SELECT
-        *
-      FROM
-        users
-      WHERE
-        LOWER(username) = LOWER($1)
-      LIMIT
-        1
-      ;`,
-      values: [username],
-    });
-
-    if (results.rowCount === 0) {
-      throw new NotFoundError({
-        message: "Username não encontrado.",
-        action: "Verifique o username e tente novamente.",
-      });
-    }
-
-    return results.rows[0];
-  }
-}
-
 async function update(username, userInputValues) {
   const currentUser = await findByUsername(username);
 
@@ -90,6 +60,66 @@ async function update(username, userInputValues) {
         userWithNewValues.password,
       ],
     });
+
+    return results.rows[0];
+  }
+}
+
+async function findByUsername(username) {
+  const userFound = await runSelectQuery(username);
+  return userFound;
+
+  async function runSelectQuery(username) {
+    const results = await database.query({
+      text: `
+      SELECT
+        *
+      FROM
+        users
+      WHERE
+        LOWER(username) = LOWER($1)
+      LIMIT
+        1
+      ;`,
+      values: [username],
+    });
+
+    if (results.rowCount === 0) {
+      throw new NotFoundError({
+        message: "Username não encontrado.",
+        action: "Verifique o username e tente novamente.",
+      });
+    }
+
+    return results.rows[0];
+  }
+}
+
+async function findByEmail(email) {
+  const userFound = await runSelectQuery(email);
+  return userFound;
+
+  async function runSelectQuery(email) {
+    const results = await database.query({
+      text: `
+      SELECT
+        *
+      FROM
+        users
+      WHERE
+        LOWER(email) = LOWER($1)
+      LIMIT
+        1
+      ;`,
+      values: [email],
+    });
+
+    if (results.rowCount === 0) {
+      throw new NotFoundError({
+        message: "Email não encontrado.",
+        action: "Verifique o email e tente novamente.",
+      });
+    }
 
     return results.rows[0];
   }
@@ -168,8 +198,9 @@ async function runInsertQuery(userInputValues) {
 
 const user = {
   create,
-  findByUsername,
   update,
+  findByUsername,
+  findByEmail,
 };
 
 export default user;

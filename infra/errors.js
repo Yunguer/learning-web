@@ -96,3 +96,23 @@ export class NotFoundError extends Error {
     };
   }
 }
+
+export class UnathourizedError extends Error {
+  constructor({ cause, message, action }) {
+    super(message || "Não foi possivel fazer a autenticação.", {
+      cause,
+    });
+    this.name = "UnathourizedError";
+    this.action = action || "Verifique os parâmetros e tente novamente.";
+    this.statusCode = 401;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.statusCode,
+    };
+  }
+}
